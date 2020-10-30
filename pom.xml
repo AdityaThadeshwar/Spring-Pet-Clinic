@@ -40,6 +40,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-site-plugin</artifactId>
+                <version>3.7.1</version>
                 <configuration>
                     <goal>install</goal>
                 </configuration>
@@ -49,5 +50,8 @@
     <scm>
         <developerConnection>scm:git:https://github.com/AdityaThadeshwar/Spring-Pet-Clinic.git</developerConnection>
     </scm>
+    <distributionManagement>
+        <downloadUrl>https://github.com/AdityaThadeshwar/Spring-Pet-Clinic.git</downloadUrl>
+    </distributionManagement>
 
 </project>
