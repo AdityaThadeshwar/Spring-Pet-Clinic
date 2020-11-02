@@ -1,8 +1,10 @@
 package com.aditya.springpetclinic.bootstrap;
 
 import com.adiya.springpetclinic.model.Owner;
+import com.adiya.springpetclinic.model.PetType;
 import com.adiya.springpetclinic.model.Vet;
 import com.adiya.springpetclinic.services.OwnerService;
+import com.adiya.springpetclinic.services.PetTypeService;
 import com.adiya.springpetclinic.services.VetService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -12,15 +14,29 @@ public class DataLoader implements CommandLineRunner {
 
     private final OwnerService ownerService;
     private final VetService vetService;
+    private final PetTypeService petTypeService;
 
-    public DataLoader(OwnerService ownerService, VetService vetService) {
+    public DataLoader(OwnerService ownerService, VetService vetService, PetTypeService petTypeService) {
         this.ownerService = ownerService;
         this.vetService = vetService;
+        this.petTypeService = petTypeService;
     }
 
     //Start application with sample data
     @Override
     public void run(String... args) throws Exception {
+
+        //Create PetType
+        PetType dog = new PetType();
+        dog.setName("Dog");
+        PetType savedDogPetType = petTypeService.save(dog);
+
+        PetType cat = new PetType();
+        cat.setName("Cat");
+        PetType savedCatPetType = petTypeService.save(cat);
+
+        System.out.println("Id: " + dog.getId() +" PetType: " + dog.getName());
+        System.out.println("Id: " + cat.getId() +" PetType: " + cat.getName());
 
         //Create Onwers
         Owner owner1 = new Owner();
