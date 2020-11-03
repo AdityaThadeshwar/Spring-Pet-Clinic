@@ -1,11 +1,9 @@
 package com.aditya.springpetclinic.bootstrap;
 
-import com.adiya.springpetclinic.model.Owner;
-import com.adiya.springpetclinic.model.Pet;
-import com.adiya.springpetclinic.model.PetType;
-import com.adiya.springpetclinic.model.Vet;
+import com.adiya.springpetclinic.model.*;
 import com.adiya.springpetclinic.services.OwnerService;
 import com.adiya.springpetclinic.services.PetTypeService;
+import com.adiya.springpetclinic.services.SpecialityService;
 import com.adiya.springpetclinic.services.VetService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -15,20 +13,28 @@ import java.time.LocalDate;
 @Component
 public class DataLoader implements CommandLineRunner {
 
+    public final SpecialityService specialityService;
     private final OwnerService ownerService;
     private final VetService vetService;
     private final PetTypeService petTypeService;
 
-    public DataLoader(OwnerService ownerService, VetService vetService, PetTypeService petTypeService) {
+    public DataLoader(OwnerService ownerService, VetService vetService, PetTypeService petTypeService, SpecialityService specialityService) {
         this.ownerService = ownerService;
         this.vetService = vetService;
         this.petTypeService = petTypeService;
+        this.specialityService = specialityService;
     }
 
     //Start application with sample data
     @Override
     public void run(String... args) throws Exception {
 
+        int count = petTypeService.findAll().size();
+        if (count == 0) loadData();
+
+    }
+
+    private void loadData() {
         //Create PetType
         PetType dog = new PetType();
         dog.setName("Dog");
@@ -38,8 +44,21 @@ public class DataLoader implements CommandLineRunner {
         cat.setName("Cat");
         PetType savedCatPetType = petTypeService.save(cat);
 
-        System.out.println("Id: " + dog.getId() +" PetType: " + dog.getName());
-        System.out.println("Id: " + cat.getId() +" PetType: " + cat.getName());
+        System.out.println("Id: " + dog.getId() + " PetType: " + dog.getName());
+        System.out.println("Id: " + cat.getId() + " PetType: " + cat.getName());
+
+        //Create Speciality
+        Speciality radiology = new Speciality();
+        radiology.setDescription("Radiology");
+        Speciality savedRadiology = specialityService.save(radiology);
+
+        Speciality dentistry = new Speciality();
+        dentistry.setDescription("Dentistry");
+        Speciality savedDentistry = specialityService.save(dentistry);
+
+        Speciality surgery = new Speciality();
+        surgery.setDescription("Surgery");
+        Speciality savedSurgery = specialityService.save(surgery);
 
         //Create Onwers
         Owner owner1 = new Owner();
@@ -78,16 +97,17 @@ public class DataLoader implements CommandLineRunner {
         Vet vet1 = new Vet();
         vet1.setFirstName("Derek");
         vet1.setLastName("Muller");
+        vet1.getSpecialities().add(savedDentistry);
         vetService.save(vet1);
         System.out.println("Vet 1: " + vet1.getFirstName() + " " + vet1.getLastName());
 
         Vet vet2 = new Vet();
         vet2.setFirstName("McDonald");
         vet2.setLastName("Trump");
+        vet2.getSpecialities().add(savedRadiology);
+        vet2.getSpecialities().add(savedSurgery);
         vetService.save(vet2);
         System.out.println("Vet 2: " + vet2.getFirstName() + " " + vet2.getLastName());
-
-
     }
 }
 
