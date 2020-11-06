@@ -1,10 +1,7 @@
 package com.aditya.springpetclinic.bootstrap;
 
 import com.adiya.springpetclinic.model.*;
-import com.adiya.springpetclinic.services.OwnerService;
-import com.adiya.springpetclinic.services.PetTypeService;
-import com.adiya.springpetclinic.services.SpecialityService;
-import com.adiya.springpetclinic.services.VetService;
+import com.adiya.springpetclinic.services.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -17,12 +14,14 @@ public class DataLoader implements CommandLineRunner {
     private final OwnerService ownerService;
     private final VetService vetService;
     private final PetTypeService petTypeService;
+    private final VisitService visitService;
 
-    public DataLoader(OwnerService ownerService, VetService vetService, PetTypeService petTypeService, SpecialityService specialityService) {
+    public DataLoader(OwnerService ownerService, VetService vetService, PetTypeService petTypeService, SpecialityService specialityService, VisitService visitService) {
         this.ownerService = ownerService;
         this.vetService = vetService;
         this.petTypeService = petTypeService;
         this.specialityService = specialityService;
+        this.visitService = visitService;
     }
 
     //Start application with sample data
@@ -90,6 +89,15 @@ public class DataLoader implements CommandLineRunner {
         pet2.setOwner(owner2);
         owner2.getPets().add(pet2);
         ownerService.save(owner2);
+
+        //Create visit for owner 2's cat
+        Visit catVisit = new Visit();
+        catVisit.setPet(pet2);
+        catVisit.setDate(LocalDate.now());
+        catVisit.setDescription("Not well");
+        visitService.save(catVisit);
+        System.out.println(catVisit.toString());
+
         //System.out.println("Owner 2: " + owner2.getFirstName() + " " + owner2.getLastName());
         System.out.println(owner2.toString());
 
