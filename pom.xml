@@ -15,7 +15,7 @@
     </parent>
     <groupId>com.aditya</groupId>
     <artifactId>spring-pet-clinic</artifactId>
-    <version>0.0.3</version>
+    <version>0.0.4-SNAPSHOT</version>
     <name>spring-pet-clinic</name>
     <description>Spring Pet Clinic</description>
 
@@ -46,7 +46,7 @@
     </build>
     <scm>
         <developerConnection>scm:git:https://github.com/AdityaThadeshwar/Spring-Pet-Clinic.git</developerConnection>
-        <tag>spring-pet-clinic-0.0.3</tag>
+        <tag>HEAD</tag>
     </scm>
     <distributionManagement>
         <downloadUrl>https://github.com/AdityaThadeshwar/Spring-Pet-Clinic.git</downloadUrl>
